@@ -1,7 +1,7 @@
 import "@/App.css";
 import { Canvas } from "@react-three/fiber";
-import Experience from "./components/Experience";
-import Configurator from "./components/Configurator";
+import Experience from "./3d_components/Experience";
+import Configurator from "./3d_components/Configurator";
 
 export default function ChairConfigurator() {
   return (

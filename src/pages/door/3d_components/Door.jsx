@@ -1,15 +1,17 @@
 import React from "react";
 import { useGLTF } from "@react-three/drei";
-import { getGlassMaterial, getColour } from "./AllMaterials";
+import { useGlassMaterial, useHandleMaterial } from "./AllMaterials";
 
 export function DoorModelJSX({ glassType, handle, handleColor, ...props }) {
   const { nodes, materials } = useGLTF("/models/door.glb");
 
-  // Decide whether glass is visible
+  // Visibility logic
   const showGlass = glassType && glassType !== "Ohne";
-
-  // Decide whether handle is visible
   const showHandle = handle && handle !== "Ohne";
+
+  // ✅ Call hooks at top level
+  const glassMaterial = useGlassMaterial(glassType);
+  const handleMaterial = useHandleMaterial(handleColor);
 
   return (
     <group {...props} dispose={null}>
@@ -24,7 +26,7 @@ export function DoorModelJSX({ glassType, handle, handleColor, ...props }) {
       {showGlass && (
         <mesh
           geometry={nodes.glass.geometry}
-          material={getGlassMaterial(glassType)}
+          material={glassMaterial}
           position={[0.883, 3.492, -0.004]}
         />
       )}
@@ -34,27 +36,27 @@ export function DoorModelJSX({ glassType, handle, handleColor, ...props }) {
         <>
           <mesh
             geometry={nodes.handle.geometry}
-            material={getColour(handleColor)}
+            material={handleMaterial}
             position={[0.361, 2.791, -1.013]}
             rotation={[-Math.PI, 0, 0]}
             scale={2.692}
           />
           <mesh
             geometry={nodes.lock_hole.geometry}
-            material={getColour(handleColor)}
+            material={handleMaterial}
             position={[0.358, 2.354, -1.011]}
             rotation={[-Math.PI, 0, 0]}
             scale={2.692}
           />
           <mesh
             geometry={nodes.handle001.geometry}
-            material={getColour(handleColor)}
+            material={handleMaterial}
             position={[0.362, 2.14, -0.925]}
             scale={2.692}
           />
           <mesh
             geometry={nodes.lock_hole001.geometry}
-            material={getColour(handleColor)}
+            material={handleMaterial}
             position={[0.359, 2.219, -0.927]}
             scale={2.692}
           />

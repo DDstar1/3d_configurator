@@ -1,16 +1,26 @@
 import React from "react";
 import { useGLTF } from "@react-three/drei";
 import { useGlassMaterial, useHandleMaterial } from "./AllMaterials";
+import { useDoorStore } from "@/store/door_store";
 
-export function DoorModelJSX({ glassType, handle, handleColor, ...props }) {
+export function DoorModelJSX(props) {
   const { nodes, materials } = useGLTF("/models/door.glb");
 
+  // Subscribe to global store fields
+  const verglasung = useDoorStore((s) => s.door.verglasung);
+  const handle = useDoorStore((s) => s.door.handle);
+  const handleColor = useDoorStore((s) => s.door.handleColor);
+
+  console.log(verglasung);
+  console.log(handle);
+  console.log(handleColor);
+
   // Visibility logic
-  const showGlass = glassType && glassType !== "Ohne";
+  const showGlass = verglasung && verglasung !== "Ohne Verglasung";
   const showHandle = handle && handle !== "Ohne";
 
-  // ✅ Call hooks at top level
-  const glassMaterial = useGlassMaterial(glassType);
+  // Create new material instances when values change
+  const glassMaterial = useGlassMaterial(verglasung);
   const handleMaterial = useHandleMaterial(handleColor);
 
   return (

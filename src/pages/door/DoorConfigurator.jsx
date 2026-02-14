@@ -6,20 +6,13 @@ import {
   Environment,
 } from "@react-three/drei";
 import { useState, Suspense } from "react";
-
 import { DoorModelJSX } from "@/pages/door/3d_components/Door";
-import {
-  DoorConfigurationForm2,
-  DoorConfiguratorForm,
-} from "@/components/door_form/Total_door_form";
+import { DoorConfigurationForm2 } from "@/components/door_form/Total_door_form";
+import { DisplayAllValues } from "@/components/DisplayAllValues";
 
 export default function DoorConfigurator() {
-  const [glassType, setGlassType] = useState("Klar");
-  const [handle, setHandle] = useState("Ohne");
-  const [handleColor, setHandleColor] = useState("Matt Schwarz");
-
   return (
-    <div className="w-screen flex  bg-white">
+    <div className="min-h-screen w-screen flex  bg-white">
       <div className="flex mx-auto gap-3 justify-center w-270">
         {/* Left: 3D Canvas */}
         <div className="w-135 h-[80vh] sticky top-1">
@@ -40,33 +33,14 @@ export default function DoorConfigurator() {
             </Suspense>
 
             {/* Door Model */}
-            <DoorModelJSX
-              position={[0, 0, 0]}
-              glassType={glassType}
-              handle={handle}
-              handleColor={handleColor}
-            />
+            <DoorModelJSX />
           </Canvas>
         </div>
 
         {/* Right: Configurator Form */}
         <div className="flex flex-col top-5 w-135  h-fit  relative">
-          <DoorConfigurationForm2
-            glassType={glassType}
-            setGlassType={setGlassType}
-            handle={handle}
-            setHandle={setHandle}
-            handleColor={handleColor}
-            setHandleColor={setHandleColor}
-          />
-          <DoorConfiguratorForm
-            glassType={glassType}
-            setGlassType={setGlassType}
-            handle={handle}
-            setHandle={setHandle}
-            handleColor={handleColor}
-            setHandleColor={setHandleColor}
-          />
+          <DoorConfigurationForm2 />
+          <DisplayAllValues />
         </div>
       </div>
     </div>

@@ -1,9 +1,10 @@
-import { useState } from "react";
+import { useDoorStore } from "@/store/door_store";
 
 export default function ZargenTab() {
-  const [zarge, setZarge] = useState("ohne Zarge");
-  const [bekleidung, setBekleidung] = useState("62,5 mm");
-  const [wandstaerke, setWandstaerke] = useState("80 mm (77 - 97 mm)");
+  const zarge = useDoorStore((s) => s.door.zarge);
+  const bekleidung = useDoorStore((s) => s.door.bekleidung);
+  const wandstaerke = useDoorStore((s) => s.door.wandstaerke);
+  const setDoorField = useDoorStore((s) => s.setDoorField);
 
   const wandOptions = [
     "80 mm (77 - 97 mm)",
@@ -21,26 +22,26 @@ export default function ZargenTab() {
         <label className="block mb-1 font-medium text-black">Zargen</label>
         <select
           value={zarge}
-          onChange={(e) => setZarge(e.target.value)}
-          className="w-full rounded p-2  bg-gray-100  text-black  border border-black/20 "
+          onChange={(e) => setDoorField("zarge", e.target.value)}
+          className="w-full rounded p-2 bg-gray-100 text-black border border-black/20"
         >
           <option value="ohne Zarge">ohne Zarge</option>
           <option value="mit Zarge">mit Zarge</option>
         </select>
       </div>
 
-      {/* Conditional fields: only show if mit Zarge */}
+      {/* Conditional fields */}
       {zarge === "mit Zarge" && (
         <>
-          {/* Bekleidung Breite */}
+          {/* Bekleidung */}
           <div>
             <label className="block mb-1 font-medium text-black">
               Bekleidung Breite
             </label>
             <select
               value={bekleidung}
-              onChange={(e) => setBekleidung(e.target.value)}
-              className="w-full rounded p-2  bg-gray-100  text-black  border border-black/20 "
+              onChange={(e) => setDoorField("bekleidung", e.target.value)}
+              className="w-full rounded p-2 bg-gray-100 text-black border border-black/20"
             >
               <option value="62,5 mm">62,5 mm</option>
               <option value="70 mm">70 mm</option>
@@ -55,8 +56,8 @@ export default function ZargenTab() {
             </label>
             <select
               value={wandstaerke}
-              onChange={(e) => setWandstaerke(e.target.value)}
-              className="w-full rounded p-2  bg-gray-100  text-black  border border-black/20 "
+              onChange={(e) => setDoorField("wandstaerke", e.target.value)}
+              className="w-full rounded p-2 bg-gray-100 text-black border border-black/20"
             >
               {wandOptions.map((option) => (
                 <option key={option} value={option}>

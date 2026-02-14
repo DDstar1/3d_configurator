@@ -6,13 +6,13 @@ import { useMemo } from "react";
 /* =========================
    GLASS MATERIAL HOOK
 ========================= */
-export function useGlassMaterial(glassType) {
+export function useGlassMaterial(verglasung) {
   // ✅ Always load texture (safe)
   const chinchillaTexture = useTexture("/textures/glass/chinchilla.png");
 
   return useMemo(() => {
-    switch (glassType) {
-      case "Klar":
+    switch (verglasung) {
+      case "Klar Glas":
         return new THREE.MeshPhysicalMaterial({
           color: 0xffffff,
           transparent: true,
@@ -21,7 +21,7 @@ export function useGlassMaterial(glassType) {
           metalness: 0,
           clearcoat: 1,
         });
-      case "Satiniert":
+      case "Satinato Weiß":
         return new THREE.MeshPhysicalMaterial({
           color: 0xffffff,
           transparent: true,
@@ -29,7 +29,7 @@ export function useGlassMaterial(glassType) {
           roughness: 0.6,
           metalness: 0,
         });
-      case "Mastercarrè klar":
+      case "Mastercarrè Klar":
         return new THREE.MeshPhysicalMaterial({
           color: 0xffffff,
           transparent: true,
@@ -37,7 +37,7 @@ export function useGlassMaterial(glassType) {
           roughness: 0.2,
           metalness: 0,
         });
-      case "Chinchilla weiß":
+      case "Chinchilla Weiß":
         return new THREE.MeshPhysicalMaterial({
           map: chinchillaTexture, // your Chinchilla pattern
           transparent: true, // allows see-through
@@ -50,7 +50,7 @@ export function useGlassMaterial(glassType) {
       default:
         return new THREE.MeshStandardMaterial({ visible: false }); // hide if "Ohne"
     }
-  }, [glassType, chinchillaTexture]);
+  }, [verglasung, chinchillaTexture]);
 }
 
 /* =========================

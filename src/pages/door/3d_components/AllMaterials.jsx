@@ -56,7 +56,7 @@ export function useGlassMaterial(verglasung) {
 /* =========================
    HANDLE MATERIAL HOOK
 ========================= */
-export function useHandleMaterial(color) {
+export function useMaterial(color) {
   const silverTextures = useLoader(THREE.TextureLoader, [
     "/textures/silver/silver_albedo.png",
     "/textures/silver/silver_metallic.png",

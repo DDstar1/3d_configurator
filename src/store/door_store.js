@@ -11,7 +11,7 @@ const initialDoorState = {
   width: 900,
   height: 2100,
 
-  schloss: "PZ – Matt Schwarz (RAL 9005)",
+  schloss: "Ohne",
   band: "Einbohrband 3-tlg. matt schwarz, RAL 9005",
   schliessblech: "Nr. 418 – Edelstahl",
 

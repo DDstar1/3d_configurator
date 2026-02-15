@@ -18,6 +18,7 @@ export default function SicherheitTab() {
           onChange={(e) => setDoorField("schloss", e.target.value)}
           className="w-full rounded p-2 bg-gray-100 text-black border border-black/20"
         >
+          <option value="Ohne">Ohne</option>
           <option value="BB – Edelstahl">BB – Edelstahl</option>
           <option value="BB – Matt Schwarz (RAL 9005)">
             BB – Matt Schwarz (RAL 9005)

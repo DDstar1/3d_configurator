@@ -18,7 +18,7 @@ export default function ExtrasTab() {
         <select
           value={lueftung}
           onChange={(e) => setDoorField("lueftung", e.target.value)}
-          className="door-form-select"
+          className="w-full rounded p-2 bg-gray-100 text-black border border-black/20"
         >
           <option value="Ohne Kernlochbohrung">Ohne Kernlochbohrung</option>
           <option value="Unten">Unten</option>
@@ -35,7 +35,7 @@ export default function ExtrasTab() {
         <select
           value={boden}
           onChange={(e) => setDoorField("boden", e.target.value)}
-          className="door-form-select"
+          className="w-full rounded p-2 bg-gray-100 text-black border border-black/20"
         >
           <option value="Ohne Bodendichtung">Ohne Bodendichtung</option>
           <option value="Mit Bodendichtung">Mit Bodendichtung</option>
@@ -50,7 +50,7 @@ export default function ExtrasTab() {
         <select
           value={lichtoeffnung}
           onChange={(e) => setDoorField("lichtoeffnung", e.target.value)}
-          className="door-form-select"
+          className="w-full rounded p-2 bg-gray-100 text-black border border-black/20"
         >
           <option value="Norm-LÖ 1011 V003">Norm-LÖ 1011 V003</option>
         </select>
@@ -62,7 +62,7 @@ export default function ExtrasTab() {
         <select
           value={verglasung}
           onChange={(e) => setDoorField("verglasung", e.target.value)}
-          className="door-form-select"
+          className="w-full rounded p-2 bg-gray-100 text-black border border-black/20"
         >
           <option value="Ohne Verglasung">Ohne Verglasung</option>
           <option value="Klar Glas">Klar Glas</option>

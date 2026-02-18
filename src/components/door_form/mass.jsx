@@ -32,7 +32,7 @@ export default function MassTab() {
               Math.min(1200, Math.max(600, Number(tempWidth))),
             )
           }
-          className="door-form-select"
+          className="w-full rounded p-2 bg-gray-100 text-black border border-black/20"
         />
       </div>
 
@@ -51,7 +51,7 @@ export default function MassTab() {
               Math.min(2400, Math.max(1900, Number(tempHeight))),
             )
           }
-          className="door-form-select"
+          className="w-full rounded p-2 bg-gray-100 text-black border border-black/20"
         />
       </div>
 

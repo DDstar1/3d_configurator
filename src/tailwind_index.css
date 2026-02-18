@@ -72,7 +72,7 @@ button:focus-visible {
 }
 
 @layer components {
-  .door-form-select {
+  .w-full rounded p-2 bg-gray-100 text-black border border-black/20 {
     @apply w-full rounded p-2  bg-gray-100  text-black  border border-black/20;
   }
 }

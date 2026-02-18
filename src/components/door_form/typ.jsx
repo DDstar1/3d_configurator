@@ -14,7 +14,7 @@ export default function TypTab() {
         <select
           value={doorType}
           onChange={(e) => setDoorField("doorType", e.target.value)}
-          className="door-form-select"
+          className="w-full rounded p-2 bg-gray-100 text-black border border-black/20"
         >
           <option value="Stumpf">Stumpf</option>
           <option value="Einschlag">Gefalzt</option>
@@ -27,7 +27,7 @@ export default function TypTab() {
         <select
           value={insertType}
           onChange={(e) => setDoorField("insertType", e.target.value)}
-          className="door-form-select"
+          className="w-full rounded p-2 bg-gray-100 text-black border border-black/20"
         >
           <option value="Röhrenspanplatte (RSP)">Röhrenspanplatte (RSP)</option>
           <option value="Vollspanplatte">Vollspanplatte</option>
@@ -40,7 +40,7 @@ export default function TypTab() {
         <select
           value={anschlag}
           onChange={(e) => setDoorField("anschlag", e.target.value)}
-          className="door-form-select"
+          className="w-full rounded p-2 bg-gray-100 text-black border border-black/20"
         >
           <option value="DIN rechts">DIN rechts</option>
           <option value="DIN links">DIN links</option>

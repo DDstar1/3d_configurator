@@ -1,11 +1,11 @@
-export default function TypTab({
-  doorType,
-  setDoorType,
-  insertType,
-  setInsertType,
-  anschlag,
-  setAnschlag,
-}) {
+import { useDoorStore } from "@/store/door_store";
+
+export default function TypTab() {
+  const doorType = useDoorStore((s) => s.door.doorType);
+  const insertType = useDoorStore((s) => s.door.insertType);
+  const anschlag = useDoorStore((s) => s.door.anschlag);
+  const setDoorField = useDoorStore((s) => s.setDoorField);
+
   return (
     <div className="space-y-3">
       {/* Türtyp */}
@@ -13,7 +13,7 @@ export default function TypTab({
         <label className="block mb-1 font-medium text-black">Türtyp:</label>
         <select
           value={doorType}
-          onChange={(e) => setDoorType(e.target.value)}
+          onChange={(e) => setDoorField("doorType", e.target.value)}
           className="door-form-select"
         >
           <option value="Stumpf">Stumpf</option>
@@ -26,7 +26,7 @@ export default function TypTab({
         <label className="block mb-1 font-medium text-black">Einlage:</label>
         <select
           value={insertType}
-          onChange={(e) => setInsertType(e.target.value)}
+          onChange={(e) => setDoorField("insertType", e.target.value)}
           className="door-form-select"
         >
           <option value="Röhrenspanplatte (RSP)">Röhrenspanplatte (RSP)</option>
@@ -39,7 +39,7 @@ export default function TypTab({
         <label className="block mb-1 font-medium text-black">Anschlag:</label>
         <select
           value={anschlag}
-          onChange={(e) => setAnschlag(e.target.value)}
+          onChange={(e) => setDoorField("anschlag", e.target.value)}
           className="door-form-select"
         >
           <option value="DIN rechts">DIN rechts</option>

@@ -1,9 +1,10 @@
-import { useState } from "react";
+import { useDoorStore } from "@/store/door_store";
 
 export default function SicherheitTab() {
-  const [schloss, setSchloss] = useState("PZ – Matt Schwarz (RAL 9005)");
-  const [band, setBand] = useState("Einbohrband 3-tlg. matt schwarz, RAL 9005");
-  const [schliessblech, setSchliessblech] = useState("Nr. 418 – Edelstahl");
+  const schloss = useDoorStore((s) => s.door.schloss);
+  const band = useDoorStore((s) => s.door.band);
+  const schliessblech = useDoorStore((s) => s.door.schliessblech);
+  const setDoorField = useDoorStore((s) => s.setDoorField);
 
   return (
     <div className="space-y-4">
@@ -14,9 +15,10 @@ export default function SicherheitTab() {
         </label>
         <select
           value={schloss}
-          onChange={(e) => setSchloss(e.target.value)}
-          className="w-full rounded p-2  bg-gray-100  text-black  border border-black/20 "
+          onChange={(e) => setDoorField("schloss", e.target.value)}
+          className="w-full rounded p-2 bg-gray-100 text-black border border-black/20"
         >
+          <option value="Ohne">Ohne</option>
           <option value="BB – Edelstahl">BB – Edelstahl</option>
           <option value="BB – Matt Schwarz (RAL 9005)">
             BB – Matt Schwarz (RAL 9005)
@@ -37,8 +39,8 @@ export default function SicherheitTab() {
         <label className="block mb-1 font-medium text-black">Bänder</label>
         <select
           value={band}
-          onChange={(e) => setBand(e.target.value)}
-          className="w-full rounded p-2  bg-gray-100  text-black  border border-black/20 "
+          onChange={(e) => setDoorField("band", e.target.value)}
+          className="w-full rounded p-2 bg-gray-100 text-black border border-black/20"
         >
           <option value="Einbohrband 2-tlg. vernickelt (Standard)">
             Einbohrband 2-tlg. vernickelt (Standard)
@@ -74,8 +76,8 @@ export default function SicherheitTab() {
         </label>
         <select
           value={schliessblech}
-          onChange={(e) => setSchliessblech(e.target.value)}
-          className="w-full rounded p-2  bg-gray-100  text-black  border border-black/20"
+          onChange={(e) => setDoorField("schliessblech", e.target.value)}
+          className="w-full rounded p-2 bg-gray-100 text-black border border-black/20"
         >
           <option value="Nr. 418 – Edelstahl">Nr. 418 – Edelstahl</option>
           <option value="Nr. 418 – Matt Schwarz (RAL 9005)">

@@ -1,11 +1,12 @@
-import { useState } from "react";
+import { useDoorStore } from "@/store/door_store";
 
 export default function ExtrasTab() {
-  const [lueftung, setLueftung] = useState("Ohne Kernlochbohrung");
-  const [dichtung, setDichtung] = useState("Standard (Zargendichtung)");
-  const [boden, setBoden] = useState("Ohne Bodendichtung");
-  const [lichtoeffnung, setLichtoeffnung] = useState("Norm-LÖ 1011 V003");
-  const [verglasung, setVerglasung] = useState("Ohne Verglasung");
+  const lueftung = useDoorStore((s) => s.door.lueftung);
+  const dichtung = useDoorStore((s) => s.door.dichtung);
+  const boden = useDoorStore((s) => s.door.boden);
+  const lichtoeffnung = useDoorStore((s) => s.door.lichtoeffnung);
+  const verglasung = useDoorStore((s) => s.door.verglasung);
+  const setDoorField = useDoorStore((s) => s.setDoorField);
 
   return (
     <div className="space-y-4">
@@ -16,7 +17,7 @@ export default function ExtrasTab() {
         </label>
         <select
           value={lueftung}
-          onChange={(e) => setLueftung(e.target.value)}
+          onChange={(e) => setDoorField("lueftung", e.target.value)}
           className="door-form-select"
         >
           <option value="Ohne Kernlochbohrung">Ohne Kernlochbohrung</option>
@@ -33,7 +34,7 @@ export default function ExtrasTab() {
         </label>
         <select
           value={boden}
-          onChange={(e) => setBoden(e.target.value)}
+          onChange={(e) => setDoorField("boden", e.target.value)}
           className="door-form-select"
         >
           <option value="Ohne Bodendichtung">Ohne Bodendichtung</option>
@@ -48,7 +49,7 @@ export default function ExtrasTab() {
         </label>
         <select
           value={lichtoeffnung}
-          onChange={(e) => setLichtoeffnung(e.target.value)}
+          onChange={(e) => setDoorField("lichtoeffnung", e.target.value)}
           className="door-form-select"
         >
           <option value="Norm-LÖ 1011 V003">Norm-LÖ 1011 V003</option>
@@ -60,7 +61,7 @@ export default function ExtrasTab() {
         <label className="block mb-1 font-medium text-black">Verglasung</label>
         <select
           value={verglasung}
-          onChange={(e) => setVerglasung(e.target.value)}
+          onChange={(e) => setDoorField("verglasung", e.target.value)}
           className="door-form-select"
         >
           <option value="Ohne Verglasung">Ohne Verglasung</option>

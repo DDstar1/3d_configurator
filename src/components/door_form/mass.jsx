@@ -1,14 +1,17 @@
 import { useState, useEffect } from "react";
+import { useDoorStore } from "@/store/door_store";
 
 export default function MassTab() {
-  const [width, setWidth] = useState(985);
-  const [height, setHeight] = useState(2100);
+  // Subscribe to width and height in the store
+  const width = useDoorStore((s) => s.door.width);
+  const height = useDoorStore((s) => s.door.height);
+  const setDoorField = useDoorStore((s) => s.setDoorField);
 
-  // Temporary state for typing
+  // Local temporary state for typing
   const [tempWidth, setTempWidth] = useState(width);
   const [tempHeight, setTempHeight] = useState(height);
 
-  // Sync temp with parent if width/height changes
+  // Sync temp state if store changes externally
   useEffect(() => setTempWidth(width), [width]);
   useEffect(() => setTempHeight(height), [height]);
 
@@ -24,7 +27,10 @@ export default function MassTab() {
           max={1200}
           onChange={(e) => setTempWidth(e.target.value)}
           onBlur={() =>
-            setWidth(Math.min(1200, Math.max(600, Number(tempWidth))))
+            setDoorField(
+              "width",
+              Math.min(1200, Math.max(600, Number(tempWidth))),
+            )
           }
           className="door-form-select"
         />
@@ -40,7 +46,10 @@ export default function MassTab() {
           max={2400}
           onChange={(e) => setTempHeight(e.target.value)}
           onBlur={() =>
-            setHeight(Math.min(2400, Math.max(1900, Number(tempHeight))))
+            setDoorField(
+              "height",
+              Math.min(2400, Math.max(1900, Number(tempHeight))),
+            )
           }
           className="door-form-select"
         />

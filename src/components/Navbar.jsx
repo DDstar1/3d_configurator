@@ -35,6 +35,17 @@ export default function Navbar() {
       >
         Door Configurator
       </NavLink>
+
+      <NavLink
+        to="/zustand_test"
+        className={({ isActive }) =>
+          isActive
+            ? "text-blue-400 font-semibold"
+            : "hover:text-blue-400 transition"
+        }
+      >
+        Zustand Test
+      </NavLink>
     </nav>
   );
 }

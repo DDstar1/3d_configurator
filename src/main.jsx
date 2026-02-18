@@ -1,8 +1,8 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
 import App from "./App";
-import "./index.css";
-import "./tailwind_global.css";
+
+import "./tailwind_index.css";
 import { BrowserRouter } from "react-router-dom";
 import { CustomizationProvider } from "@/contexts/Customization";
 

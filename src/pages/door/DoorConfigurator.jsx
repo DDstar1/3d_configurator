@@ -18,7 +18,7 @@ export default function DoorConfigurator() {
         <div className="w-135 h-[80vh] sticky top-1">
           <Canvas
             shadows
-            camera={{ position: [2, 1, 2] }}
+            camera={{ position: [0, 1, 2] }}
             style={{ background: "#1f1f1f" }}
           >
             <GizmoHelper alignment="bottom-right" margin={[80, 80]}>
@@ -26,7 +26,7 @@ export default function DoorConfigurator() {
             </GizmoHelper>
             <axesHelper args={[10]} />
             <gridHelper args={[40, 20, "red", 0x55ccff]} />
-            <OrbitControls target={[1.2, 2.1, -0.971]} enablePan={true} />
+            <OrbitControls target={[0, 1, 0]} enablePan={true} />
             <directionalLight intensity={2} position={[2, 5, 1]} />
             <Suspense fallback={null}>
               <Environment preset="city" />

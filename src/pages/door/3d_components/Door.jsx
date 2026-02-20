@@ -1,11 +1,12 @@
-import React from "react";
+import React, { useRef, useMemo } from "react";
 import { useGLTF } from "@react-three/drei";
 import { useGlassMaterial, useMaterial } from "./AllMaterials";
 import { useDoorStore } from "@/store/door_store";
-import { getHardwareColour } from "@/utils/utils";
+import { getHardwareColour, getDoorMetrics } from "@/utils/utils";
 
 export function DoorModelJSX(props) {
   const { nodes, materials } = useGLTF("/models/door.glb");
+  const door_ref = useRef();
 
   /* ===============================
      BASE MODEL DIMENSIONS (GLB SIZE)
@@ -20,6 +21,8 @@ export function DoorModelJSX(props) {
   const doorWidth = useDoorStore((s) => s.door.width);
   const doorHeight = useDoorStore((s) => s.door.height);
   const schloss = useDoorStore((s) => s.door.schloss);
+  const doorType = useDoorStore((s) => s.door.doorType);
+  const anschlag = useDoorStore((s) => s.door.anschlag);
 
   const schlossColour = getHardwareColour(schloss);
 
@@ -30,10 +33,38 @@ export function DoorModelJSX(props) {
   const scaleY = doorHeight / BASE_HEIGHT;
 
   /* ===============================
+     DOOR METRICS (after scaling)
+  =============================== */
+  const metrics = useMemo(() => {
+    if (!door_ref.current) return null;
+    console.log("Calculating door metrics...");
+    console.log("getDoorMetrics:", getDoorMetrics(door_ref));
+    return getDoorMetrics(door_ref);
+  }, [doorWidth, doorHeight]);
+
+  /* ===============================
+     HANDLE POSITION CALCULATION
+  =============================== */
+
+  const handleX = useMemo(() => {
+    const originalX = nodes.handle.position.x;
+    if (!metrics) return originalX;
+
+    if (anschlag === "DIN rechts") {
+      // mirror around door center
+
+      return metrics.centerX - (originalX - metrics.centerX);
+    }
+
+    return originalX;
+  }, [anschlag, metrics]);
+
+  /* ===============================
      VISIBILITY LOGIC
   =============================== */
   const showGlass = verglasung && verglasung !== "Ohne Verglasung";
   const showSchloss = schloss && schloss !== "Ohne";
+  const showRebateEdge = doorType === "Gefalzt";
 
   /* ===============================
      DYNAMIC MATERIALS
@@ -41,25 +72,29 @@ export function DoorModelJSX(props) {
   const glassMaterial = useGlassMaterial(verglasung);
   const schlossMaterial = useMaterial(schlossColour);
 
-  console.log("Adjusted X position:", nodes.handle.position.x * 22); // Log the adjusted X position for debugging
-
   return (
-    <group {...props} dispose={null}>
+    <group ref={door_ref} {...props} dispose={null}>
       {/* ===============================
-          Scalable group: door frame + glass
+          Scalable group
       =============================== */}
       <group scale={[scaleX, scaleY, 1]}>
         <mesh geometry={nodes.door.geometry} material={materials.Material} />
         {showGlass && (
           <mesh geometry={nodes.glass.geometry} material={glassMaterial} />
         )}
+        {showRebateEdge && (
+          <mesh
+            geometry={nodes.rebate_edge.geometry}
+            material={nodes.rebate_edge.material}
+          />
+        )}
       </group>
 
       {/* ===============================
-          HANDLE + LOCK (fixed size, not scaled)
+          HANDLE (fixed size)
       =============================== */}
       {showSchloss && (
-        <group>
+        <group position={[handleX, 0, 0]}>
           <mesh geometry={nodes.handle.geometry} material={schlossMaterial} />
           <mesh
             geometry={nodes.lock_hole.geometry}

@@ -17,7 +17,7 @@ export default function TypTab() {
           className="w-full rounded p-2 bg-gray-100 text-black border border-black/20"
         >
           <option value="Stumpf">Stumpf</option>
-          <option value="Einschlag">Gefalzt</option>
+          <option value="Gefalzt">Gefalzt</option>
         </select>
       </div>
 

@@ -7,6 +7,8 @@ const initialDoorState = {
   lichtoeffnung: "Norm-LÖ 1011 V003",
   //verglasung: "Ohne Verglasung",
   verglasung: "Chinchilla Weiß",
+  doorType: "Stumpf",
+  anschlag: "DIN rechts",
 
   width: 900,
   height: 2100,

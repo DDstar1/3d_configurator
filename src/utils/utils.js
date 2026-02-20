@@ -9,7 +9,7 @@ export const getHardwareColour = (schloss) => {
   return "Silberfarbig"; // fallback if needed
 };
 
-export const getDoorMetrics = (doorRef) => {
+export const getMetrics = (doorRef) => {
   if (!doorRef.current) return null;
 
   const box = new THREE.Box3().setFromObject(doorRef.current);

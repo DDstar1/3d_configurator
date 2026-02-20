@@ -1,12 +1,13 @@
-import React, { useRef, useMemo } from "react";
+import React, { useRef } from "react";
 import { useGLTF } from "@react-three/drei";
 import { useGlassMaterial, useMaterial } from "./AllMaterials";
 import { useDoorStore } from "@/store/door_store";
-import { getHardwareColour, getDoorMetrics } from "@/utils/utils";
+import { getHardwareColour, getMetrics } from "@/utils/utils";
 
 export function DoorModelJSX(props) {
   const { nodes, materials } = useGLTF("/models/door.glb");
   const door_ref = useRef();
+  const handle_ref = useRef();
 
   /* ===============================
      BASE MODEL DIMENSIONS (GLB SIZE)
@@ -33,31 +34,21 @@ export function DoorModelJSX(props) {
   const scaleY = doorHeight / BASE_HEIGHT;
 
   /* ===============================
-     DOOR METRICS (after scaling)
-  =============================== */
-  const metrics = useMemo(() => {
-    if (!door_ref.current) return null;
-    console.log("Calculating door metrics...");
-    console.log("getDoorMetrics:", getDoorMetrics(door_ref));
-    return getDoorMetrics(door_ref);
-  }, [doorWidth, doorHeight]);
-
-  /* ===============================
      HANDLE POSITION CALCULATION
   =============================== */
+  const originalX = nodes.handle.position.x;
+  let handleX = originalX;
 
-  const handleX = useMemo(() => {
-    const originalX = nodes.handle.position.x;
-    if (!metrics) return originalX;
+  if (anschlag === "DIN rechts") {
+    const door_metrics = getMetrics(door_ref);
+    const handle_metrics = getMetrics(handle_ref);
 
-    if (anschlag === "DIN rechts") {
-      // mirror around door center
-
-      return metrics.centerX - (originalX - metrics.centerX);
+    if (door_metrics && handle_metrics) {
+      const mirroredCenterX =
+        door_metrics.centerX - (handle_metrics.centerX - door_metrics.centerX);
+      handleX = originalX + (mirroredCenterX - handle_metrics.centerX);
     }
-
-    return originalX;
-  }, [anschlag, metrics]);
+  }
 
   /* ===============================
      VISIBILITY LOGIC
@@ -95,8 +86,13 @@ export function DoorModelJSX(props) {
       =============================== */}
       {showSchloss && (
         <group position={[handleX, 0, 0]}>
-          <mesh geometry={nodes.handle.geometry} material={schlossMaterial} />
           <mesh
+            rotation={[0, anschlag === "DIN rechts" ? Math.PI : 0, 0]}
+            geometry={nodes.handle.geometry}
+            material={schlossMaterial}
+          />
+          <mesh
+            ref={handle_ref}
             geometry={nodes.lock_hole.geometry}
             material={schlossMaterial}
           />

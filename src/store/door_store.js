@@ -8,7 +8,7 @@ const initialDoorState = {
   //verglasung: "Ohne Verglasung",
   verglasung: "Chinchilla Weiß",
   doorType: "Stumpf",
-  anschlag: "DIN rechts",
+  anschlag: "DIN links",
 
   width: 900,
   height: 2100,

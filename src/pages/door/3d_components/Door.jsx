@@ -7,7 +7,9 @@ import { getHardwareColour, getMetrics } from "@/utils/utils";
 export function DoorModelJSX(props) {
   const { nodes, materials } = useGLTF("/models/door.glb");
   const door_ref = useRef();
-  const handle_ref = useRef();
+  const lock_hole_ref = useRef();
+  const handle_ref = useRef(); // ← new ref on the handle mesh
+  const handle001_ref = useRef(); // ← new ref on the handle mesh
 
   /* ===============================
      BASE MODEL DIMENSIONS (GLB SIZE)
@@ -37,11 +39,13 @@ export function DoorModelJSX(props) {
      HANDLE POSITION CALCULATION
   =============================== */
   const originalX = nodes.handle.position.x;
+  const originalY = nodes.handle.position.y;
   let handleX = originalX;
+  let handleY = originalY;
 
   if (anschlag === "DIN rechts") {
     const door_metrics = getMetrics(door_ref);
-    const handle_metrics = getMetrics(handle_ref);
+    const handle_metrics = getMetrics(lock_hole_ref);
 
     if (door_metrics && handle_metrics) {
       const mirroredCenterX =
@@ -87,16 +91,19 @@ export function DoorModelJSX(props) {
       {showSchloss && (
         <group position={[handleX, 0, 0]}>
           <mesh
+            ref={handle_ref}
             rotation={[0, anschlag === "DIN rechts" ? Math.PI : 0, 0]}
             geometry={nodes.handle.geometry}
             material={schlossMaterial}
           />
           <mesh
-            ref={handle_ref}
+            ref={lock_hole_ref}
             geometry={nodes.lock_hole.geometry}
             material={schlossMaterial}
           />
           <mesh
+            ref={handle001_ref}
+            rotation={[0, anschlag === "DIN rechts" ? Math.PI : 0, 0]}
             geometry={nodes.handle001.geometry}
             material={schlossMaterial}
           />

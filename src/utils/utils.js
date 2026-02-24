@@ -9,23 +9,48 @@ export const getHardwareColour = (schloss) => {
   return "Silberfarbig"; // fallback if needed
 };
 
-export const getMetrics = (doorRef) => {
-  if (!doorRef.current) return null;
+/* ===============================
+   BOUNDING BOX METRICS
+=============================== */
+export const getMetrics = (ref) => {
+  if (!ref.current) return null;
 
-  const box = new THREE.Box3().setFromObject(doorRef.current);
+  const object = ref.current;
+
+  // Make sure world matrices are up to date
+  object.updateWorldMatrix(true, true);
+
+  /* ===============================
+     WORLD POSITION
+  =============================== */
+  const pos = new THREE.Vector3();
+  object.getWorldPosition(pos);
+
+  /* ===============================
+     BOUNDING BOX
+  =============================== */
+  const box = new THREE.Box3().setFromObject(object);
 
   const size = new THREE.Vector3();
   const center = new THREE.Vector3();
 
-  box.getSize(size); // full width/height/depth
-  box.getCenter(center); // world center position
+  box.getSize(size);
+  box.getCenter(center);
 
   return {
+    /* size */
     width: size.x,
     height: size.y,
     depth: size.z,
+
+    /* bounding center */
     centerX: center.x,
     centerY: center.y,
     centerZ: center.z,
+
+    /* world position */
+    worldX: pos.x,
+    worldY: pos.y,
+    worldZ: pos.z,
   };
 };

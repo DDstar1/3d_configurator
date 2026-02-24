@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, { useRef, useEffect, useState, use } from "react";
 import { useGLTF } from "@react-three/drei";
 import { useGlassMaterial, useMaterial } from "./AllMaterials";
 import { useDoorStore } from "@/store/door_store";
@@ -6,10 +6,14 @@ import { getHardwareColour, getMetrics } from "@/utils/utils";
 
 export function DoorModelJSX(props) {
   const { nodes, materials } = useGLTF("/models/door.glb");
+  const [original_handle_metrics, setOriginalHandleMetrics] = useState(null);
+  const [original_handle001_metrics, setOriginalHandle001Metrics] =
+    useState(null);
   const door_ref = useRef();
   const lock_hole_ref = useRef();
   const handle_ref = useRef(); // ← new ref on the handle mesh
   const handle001_ref = useRef(); // ← new ref on the handle mesh
+  const schlossGroup = useRef(); // Group ref for the handle and lock hole
 
   /* ===============================
      BASE MODEL DIMENSIONS (GLB SIZE)
@@ -36,23 +40,36 @@ export function DoorModelJSX(props) {
   const scaleY = doorHeight / BASE_HEIGHT;
 
   /* ===============================
-     HANDLE POSITION CALCULATION
+     HANDLE POSITION CALCULATIONs
   =============================== */
   const originalX = nodes.handle.position.x;
   const originalY = nodes.handle.position.y;
   let handleX = originalX;
-  let handleY = originalY;
 
-  if (anschlag === "DIN rechts") {
-    const door_metrics = getMetrics(door_ref);
-    const handle_metrics = getMetrics(lock_hole_ref);
+  useEffect(() => {
+    if (!handle_ref.current || !handle001_ref.current) return;
 
-    if (door_metrics && handle_metrics) {
-      const mirroredCenterX =
-        door_metrics.centerX - (handle_metrics.centerX - door_metrics.centerX);
-      handleX = originalX + (mirroredCenterX - handle_metrics.centerX);
+    const handle_metrics = getMetrics(handle_ref);
+    const handle001_metrics = getMetrics(handle001_ref);
+
+    setOriginalHandleMetrics(handle_metrics);
+    setOriginalHandle001Metrics(handle001_metrics);
+  }, [schloss]); // run only once
+
+  useEffect(() => {
+    console.log(
+      "Door width changed, recalculating handle position...",
+      doorWidth,
+    );
+    if (!door_ref.current || !lock_hole_ref.current) return;
+    if (anschlag === "DIN rechts") {
+      schlossGroup.current.position.x = doorWidth / 1000;
+      schlossGroup.current.scale.x = -1; // flip horizontally
+    } else {
+      schlossGroup.current.position.x = 0;
+      schlossGroup.current.scale.x = 1; // flip horizontally
     }
-  }
+  }, [anschlag, doorWidth]);
 
   /* ===============================
      VISIBILITY LOGIC
@@ -68,7 +85,7 @@ export function DoorModelJSX(props) {
   const schlossMaterial = useMaterial(schlossColour);
 
   return (
-    <group ref={door_ref} {...props} dispose={null}>
+    <group ref={door_ref} dispose={null}>
       {/* ===============================
           Scalable group
       =============================== */}
@@ -89,10 +106,9 @@ export function DoorModelJSX(props) {
           HANDLE (fixed size)
       =============================== */}
       {showSchloss && (
-        <group position={[handleX, 0, 0]}>
+        <group ref={schlossGroup} position={[0, 0, 0]}>
           <mesh
             ref={handle_ref}
-            rotation={[0, anschlag === "DIN rechts" ? Math.PI : 0, 0]}
             geometry={nodes.handle.geometry}
             material={schlossMaterial}
           />
@@ -103,7 +119,6 @@ export function DoorModelJSX(props) {
           />
           <mesh
             ref={handle001_ref}
-            rotation={[0, anschlag === "DIN rechts" ? Math.PI : 0, 0]}
             geometry={nodes.handle001.geometry}
             material={schlossMaterial}
           />
